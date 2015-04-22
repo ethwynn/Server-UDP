@@ -6,7 +6,13 @@
 #include <netdb.h>
 #include <string.h>
 
-void messageUDP(char *hote,char *service,float message,int taille){
+typedef struct data{
+float x;
+float y;
+float theta;
+}Data;
+
+void messageUDP(char *hote,char *service,Data message,int taille){
 
 	struct addrinfo precisions,*resultat;
 	int statut;
@@ -48,12 +54,13 @@ int main(int argc,char *argv[]){
 		exit(EXIT_FAILURE);
 	}
 	char *hote=argv[1];
-	float message;
 	char *service="5000";
-	float x=10.135432;
-	message=x;
+	Data message;
+	message.x=10.1010;
+	message.y=12.1010;
+	message.theta=24.1010;
 
-	messageUDP(hote,service,(float)message,sizeof(message));
+	messageUDP(hote,service,(Data)message,sizeof(message));
 	return 0;
 
 }

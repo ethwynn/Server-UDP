@@ -8,7 +8,13 @@
 
 #define MAX_UDP_MESSAGE 1024
 
-int affichage(float message, int nboctets);//prototype
+typedef struct data{
+float x;
+float y;
+float theta;
+}Data;
+
+int affichage(Data message, int nboctets);//prototype
 
 int initialisationSocketUDP(char *service){
 
@@ -46,12 +52,12 @@ int initialisationSocketUDP(char *service){
 
 }
 
-int boucleServeurUDP(int s,int (*traitement)(float,int)){
+int boucleServeurUDP(int s,int (*traitement)(Data,int)){
 
 	while(1){
 		struct sockaddr_storage adresse;
 		socklen_t taille=sizeof(adresse);
-		float message;
+		Data message;
 		int nboctets=recvfrom(s,&message,MAX_UDP_MESSAGE,0,(struct sockaddr *)&adresse,&taille);
 		if(nboctets<0) return -1;
 		if(traitement(message,nboctets)<0) break;
@@ -60,9 +66,11 @@ int boucleServeurUDP(int s,int (*traitement)(float,int)){
 
 }
 
-int affichage(float m, int nboctets){
+int affichage(Data m, int nboctets){
 
-	printf("%f\n",m);
+	printf("%f\n",m.x);
+	printf("%f\n",m.y);
+	printf("%f\n",m.theta);
 	return 0;
 }
 
